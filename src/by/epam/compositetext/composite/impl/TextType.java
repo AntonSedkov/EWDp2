@@ -1,4 +1,4 @@
-package by.epam.compositetext.composite;
+package by.epam.compositetext.composite.impl;
 
 public enum TextType {
     TEXT,
