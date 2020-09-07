@@ -21,3 +21,10 @@
 2020-08-31 21:42:30 [main] INFO  TextReader:22 - Text from file has been read successfully.
 2020-08-31 21:43:18 [main] INFO  TextReader:22 - Text from file has been read successfully.
 2020-08-31 21:43:36 [main] INFO  TextReader:22 - Text from file has been read successfully.
+2020-09-05 22:05:45 [main] INFO  TextReader:22 - Text from file has been read successfully.
+2020-09-05 22:08:35 [main] INFO  TextReader:22 - Text from file has been read successfully.
+2020-09-05 22:09:01 [main] INFO  TextReader:22 - Text from file has been read successfully.
+2020-09-05 22:09:20 [main] INFO  TextReader:22 - Text from file has been read successfully.
+2020-09-05 22:09:39 [main] INFO  TextReader:22 - Text from file has been read successfully.
+2020-09-05 22:10:38 [main] INFO  TextReader:22 - Text from file has been read successfully.
+2020-09-05 22:11:21 [main] INFO  TextReader:22 - Text from file has been read successfully.

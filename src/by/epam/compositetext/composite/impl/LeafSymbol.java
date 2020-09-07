@@ -9,7 +9,6 @@ public class LeafSymbol implements TextComponent {
     private static Logger logger = LogManager.getLogger(LeafSymbol.class);
     private static final boolean DEFAULT_PARTING = false;
     private static final TextType CURRENT_TYPE = TextType.SYMBOL;
-    private TypeSymbol type;
     private char symbol;
 
     public char getSymbol() {
@@ -21,8 +20,13 @@ public class LeafSymbol implements TextComponent {
     }
 
     @Override
-    public String operation() {
+    public String toString() {
         return String.valueOf(symbol);
+    }
+
+    @Override
+    public TextType getCurrentType() {
+        return CURRENT_TYPE;
     }
 
     @Override

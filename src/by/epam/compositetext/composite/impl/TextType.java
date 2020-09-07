@@ -6,6 +6,5 @@ public enum TextType {
     SENTENCE,
     LEXEME,
     WORD,
-    EXPRESSION,
     SYMBOL
 }

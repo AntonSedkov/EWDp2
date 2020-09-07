@@ -9,8 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SentenceParser implements BaseHandler {
-    private final BaseHandler successor = new LexemeParser();
+    private static final SentenceParser INSTANCE = new SentenceParser();
+    private final BaseHandler successor = LexemeParser.getInstance();
     private static final String SENTENCE_REGEXP = "([А-ЯA-Z](|[^?!.\\(]|\\([^\\)]*\\))*[.?!])";
+
+    private SentenceParser() {
+    }
+
+    public static SentenceParser getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public List<TextComponent> parseComponent(String text) {

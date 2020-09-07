@@ -4,14 +4,12 @@ import by.epam.compositetext.composite.TextComponent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringJoiner;
 
 public class TextComposite implements TextComponent {
     private TextType currentType;
     private List<TextComponent> components = new ArrayList<>();
     private static final String SPACE = " ";
     private static final String NEW_LINE_AND_TAB = "\n\t";
-    private static final String DOT = ".";
 
     public TextComposite(TextType currentType) {
         this.currentType = currentType;
@@ -21,33 +19,25 @@ public class TextComposite implements TextComponent {
         return currentType;
     }
 
+    public List<TextComponent> getComponents() {
+        return components;
+    }
+
+    public void setComponents(List<TextComponent> components) {
+        this.components = components;
+    }
+
     @Override
-    public String operation() {
-        StringJoiner result = new StringJoiner(SPACE);
-        String delimiter = SPACE;
-        switch (currentType) {
-            case PARAGRAPH -> {
-                for (TextComponent component : components) {
-                    delimiter = NEW_LINE_AND_TAB;
-                    result.add(component.operation()).add(delimiter);
-                }
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        for (TextComponent component : components) {
+            if (TextType.PARAGRAPH.equals(component.getCurrentType())) {
+                result.append(NEW_LINE_AND_TAB);
             }
-            case SENTENCE -> {
-                for (TextComponent component : components) {
-                    delimiter = DOT;
-                    result.add(component.operation()).add(delimiter);
-                }
+            if (TextType.SENTENCE.equals(component.getCurrentType()) || TextType.LEXEME.equals(component.getCurrentType())) {
+                result.append(SPACE);
             }
-            case LEXEME, EXPRESSION -> {
-                for (TextComponent component : components) {
-                    result.add(component.operation()).add(delimiter);
-                }
-            }
-            case SYMBOL -> {
-                for (TextComponent component : components) {
-                    result.add(component.operation());
-                }
-            }
+            result.append(component.toString());
         }
         return result.toString();
     }

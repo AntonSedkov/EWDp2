@@ -8,6 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SymbolParser implements BaseHandler {
+    private static final SymbolParser INSTANCE = new SymbolParser();
+
+    private SymbolParser() {
+    }
+
+    public static SymbolParser getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public List<TextComponent> parseComponent(String text) {

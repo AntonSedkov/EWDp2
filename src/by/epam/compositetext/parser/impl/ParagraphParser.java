@@ -9,8 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ParagraphParser implements BaseHandler {
-    private final BaseHandler successor = new SentenceParser();
-    private static final String PARAGRAPH_REGEXP = "[\t]|[ ]{4}";
+    private static final ParagraphParser INSTANCE = new ParagraphParser();
+    private final BaseHandler successor = SentenceParser.getInstance();
+    private static final String PARAGRAPH_REGEXP = "[\n]";
+
+    private ParagraphParser() {
+    }
+
+    public static ParagraphParser getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public List<TextComponent> parseComponent(String text) {

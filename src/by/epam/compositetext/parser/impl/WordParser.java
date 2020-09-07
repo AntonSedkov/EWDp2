@@ -7,15 +7,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WordParser implements BaseHandler {
-    private final BaseHandler successor = new SymbolParser();
-    private static final String ONE_LETTER = "[^\\W_0-9]{1}";
+    private static final WordParser INSTANCE = new WordParser();
+    private final BaseHandler successor = SymbolParser.getInstance();
+
+    private WordParser() {
+    }
+
+    public static WordParser getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public List<TextComponent> parseComponent(String text) {
         List<TextComponent> leafs = new ArrayList<>();
-        String[] symbols = text.split(ONE_LETTER);
-        for (String symbol : symbols) {
-            List<TextComponent> leaf = successor.parseComponent(symbol);
+        for (int i = 0; i < text.length(); i++) {
+            List<TextComponent> leaf = successor.parseComponent(text.substring(i, i + 1));
             leafs.addAll(leaf);
         }
         return leafs;
