@@ -4,12 +4,15 @@ import by.epam.compositetext.composite.TextComponent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class TextComposite implements TextComponent {
     private TextType currentType;
     private List<TextComponent> components = new ArrayList<>();
     private static final String SPACE = " ";
     private static final String NEW_LINE_AND_TAB = "\n\t";
+    private static final String DOT = ".";
+    private static final String STRING_JOINER_DELIMITER = "";
 
     public TextComposite(TextType currentType) {
         this.currentType = currentType;
@@ -29,17 +32,21 @@ public class TextComposite implements TextComponent {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder();
+        StringJoiner st = new StringJoiner(STRING_JOINER_DELIMITER);
         for (TextComponent component : components) {
-            if (TextType.PARAGRAPH.equals(component.getCurrentType())) {
-                result.append(NEW_LINE_AND_TAB);
+            TextType currentType = component.getCurrentType();
+            if (TextType.PARAGRAPH.equals(currentType)) {
+                st.add(NEW_LINE_AND_TAB);
             }
-            if (TextType.SENTENCE.equals(component.getCurrentType()) || TextType.LEXEME.equals(component.getCurrentType())) {
-                result.append(SPACE);
+            if (TextType.LEXEME.equals(component.getCurrentType())) {
+                st.add(SPACE);
             }
-            result.append(component.toString());
+            st.add(component.toString());
+            if (TextType.SENTENCE.equals(component.getCurrentType())) {
+                st.add(DOT);
+            }
         }
-        return result.toString();
+        return st.toString();
     }
 
     @Override

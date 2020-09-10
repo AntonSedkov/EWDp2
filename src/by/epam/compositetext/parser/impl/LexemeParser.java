@@ -4,15 +4,21 @@ import by.epam.compositetext.composite.TextComponent;
 import by.epam.compositetext.composite.impl.TextComposite;
 import by.epam.compositetext.composite.impl.TextType;
 import by.epam.compositetext.parser.BaseHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LexemeParser implements BaseHandler {
+    private static Logger logger = LogManager.getLogger(LexemeParser.class);
     private static final LexemeParser INSTANCE = new LexemeParser();
     private final BaseHandler successorWord = WordParser.getInstance();
     private final BaseHandler successorSymbol = SymbolParser.getInstance();
-    private static final String LEXEME_REGEXP = "\\s";
+    private static final String LEXEME_REGEXP = "\\s+";
     private static final int QUANTITY_SYMBOL = 1;
     private static final String WORD_REGEXP = "[^\\W_0-9]{2,}";
     private static final String EXPRESSION_REGEXP = "[\\d+\\-*\\/()]{3,}";
@@ -34,53 +40,18 @@ public class LexemeParser implements BaseHandler {
         String[] splitLexemes = text.split(LEXEME_REGEXP);
         for (String splitLexeme : splitLexemes) {
             if (splitLexeme.matches(WORD_REGEXP)) {
-                TextComponent word = new TextComposite(TextType.WORD);
-                List<TextComponent> chars = successorWord.parseComponent(splitLexeme);
-                for (TextComponent character : chars) {
-                    word.add(character);
-                }
-                wordsAndPunct.add(word);
+                addComponentWord(splitLexeme, wordsAndPunct);
                 continue;
             }
             if (splitLexeme.length() == QUANTITY_SYMBOL) {
-                List<TextComponent> leaf = successorSymbol.parseComponent(splitLexeme);
-                wordsAndPunct.addAll(leaf);
+                addComponentOneSymbol(splitLexeme, wordsAndPunct);
                 continue;
             }
             if (splitLexeme.matches(EXPRESSION_REGEXP)) {
-                String res = "One"; //INTERPRETATOR(splitLexeme)
-                TextComponent word = new TextComposite(TextType.WORD);
-                List<TextComponent> chars = successorWord.parseComponent(res);
-                for (TextComponent character : chars) {
-                    word.add(character);
-                }
-                wordsAndPunct.add(word);
+                addComponentExpression(splitLexeme, wordsAndPunct);
                 continue;
             }
-            String punkt = "";
-            String punkt2 = "";
-            String word = "";
-            if (splitLexeme.matches(PUNKT_START)) {
-                punkt = splitLexeme.substring(0, 1);
-                word = splitLexeme.substring(1);
-                List<TextComponent> punktComponent = successorSymbol.parseComponent(punkt);
-                wordsAndPunct.addAll(punktComponent);
-            }
-            if (splitLexeme.matches(PUNKT_END)) {
-                int preEnd = splitLexeme.length() - 1;
-                punkt2 = splitLexeme.substring(preEnd);
-                word = !word.isBlank() ? word.substring(0, preEnd - 1) : splitLexeme.substring(0, preEnd);
-            }
-            if (!word.isBlank()) {
-                TextComponent wordComponent = new TextComposite(TextType.WORD);
-                List<TextComponent> chars = successorWord.parseComponent(word);
-                for (TextComponent character : chars) {
-                    wordComponent.add(character);
-                }
-                wordsAndPunct.add(wordComponent);
-                List<TextComponent> punktComponent2 = successorSymbol.parseComponent(punkt2);
-                wordsAndPunct.addAll(punktComponent2);
-            }
+            addComponentWithPunctuation(splitLexeme, wordsAndPunct);
         }
         return wordsAndPunct;
     }
@@ -113,6 +84,80 @@ public class LexemeParser implements BaseHandler {
             }
         }
         return lexemes;
+    }
+
+    private void addComponentWord(String splitLexeme, List<TextComponent> wordsAndPunct) {
+        TextComponent word = new TextComposite(TextType.LEXEME);
+        List<TextComponent> chars = successorWord.parseComponent(splitLexeme);
+        for (TextComponent character : chars) {
+            word.add(character);
+        }
+        wordsAndPunct.add(word);
+    }
+
+    private void addComponentOneSymbol(String splitLexeme, List<TextComponent> wordsAndPunct) {
+        TextComponent symbolComponent = new TextComposite(TextType.LEXEME);
+        List<TextComponent> leafs = successorSymbol.parseComponent(splitLexeme);
+        for (TextComponent leaf : leafs) {
+            symbolComponent.add(leaf);
+        }
+        wordsAndPunct.add(symbolComponent);
+    }
+
+    private void addComponentExpression(String splitLexeme, List<TextComponent> wordsAndPunct) {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("JavaScript");
+        Object result = null;
+        try {
+            result = engine.eval(splitLexeme);
+        } catch (ScriptException e) {
+            logger.error("Wrong script name for ScriptEngineManager. ", e);
+        }
+        if (result != null) {
+            String resultString = result.toString();
+            TextComponent word = new TextComposite(TextType.LEXEME);
+            List<TextComponent> chars = successorWord.parseComponent(resultString);
+            for (TextComponent character : chars) {
+                word.add(character);
+            }
+            wordsAndPunct.add(word);
+        }
+    }
+
+    private void addComponentWithPunctuation(String splitLexeme, List<TextComponent> wordsAndPunct) {
+        String word = "";
+        if (splitLexeme.matches(PUNKT_START)) {
+            String punkt = splitLexeme.substring(0, 1);
+            word = splitLexeme.substring(1);
+            TextComponent symbolComponent = new TextComposite(TextType.LEXEME);
+            List<TextComponent> symbols = successorSymbol.parseComponent(punkt);
+            for (TextComponent symbol : symbols) {
+                symbolComponent.add(symbol);
+            }
+            wordsAndPunct.add(symbolComponent);
+        }
+        String punkt2 = "";
+        if (splitLexeme.matches(PUNKT_END)) {
+            int preEnd = splitLexeme.length() - 1;
+            punkt2 = splitLexeme.substring(preEnd);
+            word = !word.isBlank() ? word.substring(0, preEnd - 1) : splitLexeme.substring(0, preEnd);
+        }
+        if (!word.isBlank()) {
+            TextComponent wordComponent = new TextComposite(TextType.LEXEME);
+            List<TextComponent> chars = successorWord.parseComponent(word);
+            for (TextComponent character : chars) {
+                wordComponent.add(character);
+            }
+            wordsAndPunct.add(wordComponent);
+            if (!punkt2.isBlank()) {
+                TextComponent symbolComponent2 = new TextComposite(TextType.LEXEME);
+                List<TextComponent> symbols = successorSymbol.parseComponent(punkt2);
+                for (TextComponent symbol : symbols) {
+                    symbolComponent2.add(symbol);
+                }
+                wordsAndPunct.add(symbolComponent2);
+            }
+        }
     }
 
 }

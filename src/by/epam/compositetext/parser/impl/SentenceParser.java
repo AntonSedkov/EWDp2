@@ -11,7 +11,7 @@ import java.util.List;
 public class SentenceParser implements BaseHandler {
     private static final SentenceParser INSTANCE = new SentenceParser();
     private final BaseHandler successor = LexemeParser.getInstance();
-    private static final String SENTENCE_REGEXP = "([А-ЯA-Z](|[^?!.\\(]|\\([^\\)]*\\))*[.?!])";
+    private static final String SENTENCE_REGEXP = "[.?!]+";
 
     private SentenceParser() {
     }
@@ -25,7 +25,7 @@ public class SentenceParser implements BaseHandler {
         List<TextComponent> sentences = new ArrayList<>();
         String[] splitSentences = text.split(SENTENCE_REGEXP);
         for (String splitSentence : splitSentences) {
-            TextComponent sentence = new TextComposite(TextType.LEXEME);
+            TextComponent sentence = new TextComposite(TextType.SENTENCE);
             List<TextComponent> lexemes = successor.parseComponent(splitSentence);
             for (TextComponent lexeme : lexemes) {
                 sentence.add(lexeme);

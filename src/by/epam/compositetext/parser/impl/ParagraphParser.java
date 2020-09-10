@@ -25,7 +25,7 @@ public class ParagraphParser implements BaseHandler {
         List<TextComponent> paragraphs = new ArrayList<>();
         String[] splitParagraphs = text.split(PARAGRAPH_REGEXP);
         for (String splitParagraph : splitParagraphs) {
-            TextComponent paragraph = new TextComposite(TextType.SENTENCE);
+            TextComponent paragraph = new TextComposite(TextType.PARAGRAPH);
             List<TextComponent> sentences = successor.parseComponent(splitParagraph);
             for (TextComponent sentence : sentences) {
                 paragraph.add(sentence);

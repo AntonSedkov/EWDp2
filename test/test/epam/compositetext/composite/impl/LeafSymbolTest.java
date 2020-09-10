@@ -15,4 +15,5 @@ public class LeafSymbolTest {
         String actual = leafSymbol.toString();
         assertEquals(actual, expected);
     }
+
 }

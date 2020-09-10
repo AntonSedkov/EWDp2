@@ -12,4 +12,5 @@ public interface TextComponent {
     boolean remove(TextComponent component);
 
     TextComponent getChild(int index) throws ProjectException;
+
 }

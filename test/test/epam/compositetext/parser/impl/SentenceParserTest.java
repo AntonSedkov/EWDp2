@@ -7,11 +7,12 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.*;
 
 public class SentenceParserTest {
     SentenceParser parser = SentenceParser.getInstance();
     String text;
+    List<TextComponent> actual;
 
     @BeforeMethod
     public void setUp() {
@@ -24,14 +25,26 @@ public class SentenceParserTest {
                 "normal distribution of letters, as opposed to using (Content here), content here', making it look like readable English.\n" +
                 "It is a (-5+1/2*(2+5*2-1))*1200 established fact that a reader will be of a page when looking at its layout.\n" +
                 "Bye.";
+        actual = parser.parseComponent(text);
     }
 
     @Test
     public void testParseComponent() {
-        List<TextComponent> actual = parser.parseComponent(text);
         int actualSize = actual.size();
         int expectedSize = 6;
         assertEquals(actualSize, expectedSize);
+    }
+
+    @Test
+    public void testParseComponentNotBlank() {
+        String elementActual = actual.get(3).toString();
+        assertFalse(elementActual.isBlank());
+    }
+
+    @Test
+    public void testParseComponentNotNull() {
+        TextComponent elementActual = actual.get(4);
+        assertNotNull(elementActual);
     }
 
 }

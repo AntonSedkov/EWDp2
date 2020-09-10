@@ -28,3 +28,24 @@
 2020-09-05 22:09:39 [main] INFO  TextReader:22 - Text from file has been read successfully.
 2020-09-05 22:10:38 [main] INFO  TextReader:22 - Text from file has been read successfully.
 2020-09-05 22:11:21 [main] INFO  TextReader:22 - Text from file has been read successfully.
+2020-09-10 23:00:41 [main] INFO  TextReader:22 - Text from file has been read successfully.
+2020-09-11 01:35:34 [main] INFO  LexemeParser:113 - Expression evaluate successfully.
+2020-09-11 01:35:34 [main] INFO  LexemeParser:113 - Expression evaluate successfully.
+2020-09-11 01:35:34 [main] INFO  LexemeParser:113 - Expression evaluate successfully.
+2020-09-11 01:35:34 [main] INFO  LexemeParser:113 - Expression evaluate successfully.
+2020-09-11 01:35:34 [main] INFO  LexemeParser:113 - Expression evaluate successfully.
+2020-09-11 01:35:34 [main] INFO  LexemeParser:113 - Expression evaluate successfully.
+2020-09-11 01:35:34 [main] INFO  LexemeParser:113 - Expression evaluate successfully.
+2020-09-11 01:35:34 [main] INFO  LexemeParser:113 - Expression evaluate successfully.
+2020-09-11 01:35:34 [main] INFO  LexemeParser:113 - Expression evaluate successfully.
+2020-09-11 01:35:34 [main] INFO  LexemeParser:113 - Expression evaluate successfully.
+2020-09-11 01:35:34 [main] INFO  LexemeParser:113 - Expression evaluate successfully.
+2020-09-11 01:35:34 [main] INFO  LexemeParser:113 - Expression evaluate successfully.
+2020-09-11 01:36:07 [main] INFO  LexemeParser:113 - Expression evaluate successfully.
+2020-09-11 01:36:07 [main] INFO  LexemeParser:113 - Expression evaluate successfully.
+2020-09-11 01:36:07 [main] INFO  LexemeParser:113 - Expression evaluate successfully.
+2020-09-11 01:36:07 [main] INFO  LexemeParser:113 - Expression evaluate successfully.
+2020-09-11 01:36:34 [main] INFO  LexemeParser:113 - Expression evaluate successfully.
+2020-09-11 01:36:34 [main] INFO  LexemeParser:113 - Expression evaluate successfully.
+2020-09-11 01:36:34 [main] INFO  LexemeParser:113 - Expression evaluate successfully.
+2020-09-11 01:36:34 [main] INFO  LexemeParser:113 - Expression evaluate successfully.

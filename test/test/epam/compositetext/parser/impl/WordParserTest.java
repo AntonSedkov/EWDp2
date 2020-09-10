@@ -12,15 +12,16 @@ import static org.testng.Assert.assertEquals;
 public class WordParserTest {
     WordParser parser = WordParser.getInstance();
     String text;
+    List<TextComponent> actual;
 
     @BeforeMethod
     public void setUp() {
         text = "Lorem";
+        actual = parser.parseComponent(text);
     }
 
     @Test
     public void testParseComponentSize() {
-        List<TextComponent> actual = parser.parseComponent(text);
         int actualSize = actual.size();
         int expectedSize = 5;
         assertEquals(actualSize, expectedSize);
@@ -28,9 +29,9 @@ public class WordParserTest {
 
     @Test
     public void testParseComponentElement() {
-        List<TextComponent> actual = parser.parseComponent(text);
         String actualSymbol = actual.get(0).toString();
         String expectedSymbol = "L";
         assertEquals(actualSymbol, expectedSymbol);
     }
+
 }
