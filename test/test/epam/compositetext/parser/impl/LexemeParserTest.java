@@ -33,13 +33,39 @@ public class LexemeParserTest {
     @Test
     public void testParseComponentNotBlank() {
         String actualElement = actual.get(10).toString();
-        assertFalse(actualElement.isBlank());
+        boolean actual = actualElement.isBlank();
+        assertFalse(actual);
     }
 
     @Test
     public void testParseComponentNotNull() {
         TextComponent actualElement = actual.get(23);
         assertNotNull(actualElement);
+    }
+
+    @Test
+    public void testParseWords() {
+        text = "It has survived - not only (five) centuries";
+        actual = parser.parseWords(text);
+        String actualElement = actual.get(5).toString();
+        String expectedElement = "five";
+        assertEquals(actualElement, expectedElement);
+    }
+
+    @Test
+    public void testParseLexemes() {
+        text = "It has survived - not only (five) centuries";
+        actual = parser.parseLexemes(text);
+        String actualElement = actual.get(6).toString();
+        String expectedElement = "(five)";
+        assertEquals(actualElement, expectedElement);
+    }
+
+    @Test
+    public void testParseComponent() {
+        String actualElement = actual.get(7).toString();
+        String expectedElement = "five";
+        assertEquals(actualElement, expectedElement);
     }
 
 }

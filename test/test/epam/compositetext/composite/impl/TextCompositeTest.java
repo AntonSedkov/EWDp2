@@ -25,14 +25,14 @@ public class TextCompositeTest {
                 "normal distribution of letters, as opposed to using (Content here), making it look like readable English.\n" +
                 "It is a (-5+1/2*(2+5*2-1))*1200 established fact that a reader will be of a page when looking at its layout.\n" +
                 "Bye.";
-        expectedText = "\n\t It has survived - not only ( five ) centuries , but also the leap into One electronic typesetting , " +
-                "remaining One essentially One unchanged. It was popularised in the One with the release " +
+        expectedText = "\n\t It has survived - not only ( five ) centuries , but also the leap into 14 electronic typesetting , " +
+                "remaining 8 essentially -3 unchanged. It was popularised in the -355 with the release " +
                 "of Letraset sheets containing Lorem Ipsum passages , and more recently with desktop publishing software " +
                 "like Aldus PageMaker including versions of Lorem Ipsum.\n\t " +
                 "It is a long established fact that a reader will be distracted by the readable content of a page when " +
-                "looking at its layout. The point of using One Ipsum is that it has a more or less " +
+                "looking at its layout. The point of using 594.0 Ipsum is that it has a more or less " +
                 "normal distribution of letters , as opposed to using ( Content here) , making it look like readable English.\n\t " +
-                "It is a One established fact that a reader will be of a page when looking at its layout.\n\t " +
+                "It is a 600.0 established fact that a reader will be of a page when looking at its layout.\n\t " +
                 "Bye.";
     }
 

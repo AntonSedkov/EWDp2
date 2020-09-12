@@ -12,6 +12,8 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LexemeParser implements BaseHandler {
     private static Logger logger = LogManager.getLogger(LexemeParser.class);
@@ -26,6 +28,7 @@ public class LexemeParser implements BaseHandler {
     private static final String ANY_WORD = ".*";
     private static final String PUNKT_START = PUNKT + ANY_WORD;
     private static final String PUNKT_END = ANY_WORD + PUNKT;
+    private static final String SCRIPT_ENGINE_NAME_FOR_INTERPRETER = "JavaScript";
 
     private LexemeParser() {
     }
@@ -61,9 +64,9 @@ public class LexemeParser implements BaseHandler {
         String[] splitLexemes = text.split(LEXEME_REGEXP);
         for (String splitLexeme : splitLexemes) {
             TextComponent lexeme = new TextComposite(TextType.LEXEME);
-            List<TextComponent> words = successorWord.parseComponent(splitLexeme);
-            for (TextComponent word : words) {
-                lexeme.add(word);
+            List<TextComponent> chars = successorWord.parseComponent(splitLexeme);
+            for (TextComponent character : chars) {
+                lexeme.add(character);
             }
             lexemes.add(lexeme);
         }
@@ -71,19 +74,19 @@ public class LexemeParser implements BaseHandler {
     }
 
     public List<TextComponent> parseWords(String text) {
-        List<TextComponent> lexemes = new ArrayList<>();
-        String[] splitLexemes = text.split(LEXEME_REGEXP);
-        for (String splitLexeme : splitLexemes) {
-            if (splitLexeme.matches(WORD_REGEXP)) {
-                TextComponent word = new TextComposite(TextType.WORD);
-                List<TextComponent> chars = successorWord.parseComponent(splitLexeme);
-                for (TextComponent character : chars) {
-                    word.add(character);
-                }
-                lexemes.add(word);
+        List<TextComponent> words = new ArrayList<>();
+        Pattern pattern = Pattern.compile(WORD_REGEXP);
+        Matcher matcher = pattern.matcher(text);
+        while (matcher.find()) {
+            TextComponent word = new TextComposite(TextType.WORD);
+            String matchText = matcher.group();
+            List<TextComponent> chars = successorWord.parseComponent(matchText);
+            for (TextComponent character : chars) {
+                word.add(character);
             }
+            words.add(word);
         }
-        return lexemes;
+        return words;
     }
 
     private void addComponentWord(String splitLexeme, List<TextComponent> wordsAndPunct) {
@@ -106,7 +109,7 @@ public class LexemeParser implements BaseHandler {
 
     private void addComponentExpression(String splitLexeme, List<TextComponent> wordsAndPunct) {
         ScriptEngineManager manager = new ScriptEngineManager();
-        ScriptEngine engine = manager.getEngineByName("JavaScript");
+        ScriptEngine engine = manager.getEngineByName(SCRIPT_ENGINE_NAME_FOR_INTERPRETER);
         Object result = null;
         try {
             result = engine.eval(splitLexeme);

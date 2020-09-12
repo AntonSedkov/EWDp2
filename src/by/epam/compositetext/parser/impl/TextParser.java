@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TextParser implements BaseHandler {
-
     private static final TextParser INSTANCE = new TextParser();
     private final BaseHandler successor = ParagraphParser.getInstance();
 

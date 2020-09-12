@@ -29,7 +29,7 @@ public class SentenceParserTest {
     }
 
     @Test
-    public void testParseComponent() {
+    public void testParseComponentSize() {
         int actualSize = actual.size();
         int expectedSize = 6;
         assertEquals(actualSize, expectedSize);
@@ -38,7 +38,8 @@ public class SentenceParserTest {
     @Test
     public void testParseComponentNotBlank() {
         String elementActual = actual.get(3).toString();
-        assertFalse(elementActual.isBlank());
+        boolean actual = elementActual.isBlank();
+        assertFalse(actual);
     }
 
     @Test

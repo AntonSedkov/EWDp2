@@ -29,7 +29,7 @@ public class ParagraphParserTest {
     }
 
     @Test
-    public void testParseComponent() {
+    public void testParseComponentSize() {
         int sizeActual = actual.size();
         int sizeExpected = 4;
         assertEquals(sizeActual, sizeExpected);
@@ -38,7 +38,8 @@ public class ParagraphParserTest {
     @Test
     public void testParseComponentNotBlank() {
         String elementActual = actual.get(1).toString();
-        assertFalse(elementActual.isBlank());
+        boolean actual = elementActual.isBlank();
+        assertFalse(actual);
     }
 
     @Test
